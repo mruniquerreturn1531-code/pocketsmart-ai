@@ -13,7 +13,7 @@ GenAI-Powered Cross-Platform Recommendation System for Home Interior, Party Plan
 ```bash
 python run.py
 ```
-Open https://github.com/mruniquerreturn1531-code/pocketsmart-ai.git in your browser.
+Open [https://github.com/mruniquerreturn1531-code/pocketsmart-ai.git](https://pocketsmart-ai-55cp.onrender.com/) in your browser.
 
 ---
 
