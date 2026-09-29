@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+  <div style="text-align: center; margin-bottom: 2rem;">
+    <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--primary);">🛋️ Home Interior Budget Planner</h1>
+    <p style="color: var(--text-muted);">Define your total interior budget and select room requirements. PocketSmart AI will allocate costs and recommend items from IKEA, Amazon, and Pepperfry.</p>
+  </div>
+
+  <form action="/generate-home" method="POST" class="glass-card ai-planner-form">
+    <div class="form-group">
+      <label class="form-label" for="total_budget">Total Interior Budget (₹ INR) *</label>
+      <input type="number" id="total_budget" name="total_budget" class="form-control" placeholder="e.g. 75000" min="1000" step="500" value="50000" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Select Target Rooms *</label>
+      <div class="checkbox-group">
+        <label class="custom-checkbox"><input type="checkbox" name="rooms" value="Living Room" checked> Living Room</label>
+        <label class="custom-checkbox"><input type="checkbox" name="rooms" value="Bedroom" checked> Bedroom</label>
+        <label class="custom-checkbox"><input type="checkbox" name="rooms" value="Kitchen" checked> Kitchen</label>
+        <label class="custom-checkbox"><input type="checkbox" name="rooms" value="Bathroom"> Bathroom</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="style">Interior Style Preference</label>
+      <select id="style" name="style" class="form-control">
+        <option value="Modern & Functional">Modern & Functional</option>
+        <option value="Minimalist Scandinavian">Minimalist Scandinavian</option>
+        <option value="Classic & Traditional">Classic & Traditional</option>
+        <option value="Luxury Glassmorphism & Gold">Luxury Accent</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+        <label class="form-label" style="margin-bottom: 0;">Specify Items & Quantities (Optional)</label>
+        <button type="button" class="btn btn-outline btn-sm" id="addItemBtn">+ Add Custom Item</button>
+      </div>
+      <div id="dynamicItemsContainer"></div>
+      <input type="hidden" name="items_json" id="items_json" value="">
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block" style="padding: 1rem; margin-top: 1rem; font-size: 1.05rem;">
+      ✨ Generate Smart Home Recommendations
+    </button>
+  </form>
+</div>
+{% endblock %}

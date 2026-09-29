@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 1000px; margin: 0 auto;">
+  <div style="margin-bottom: 2rem;">
+    <h1 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 0.5rem; color: var(--primary);">📜 Recommendation History</h1>
+    <p style="color: var(--text-muted);">View all your past AI-generated budget allocation plans and store recommendations.</p>
+  </div>
+
+  {% if history %}
+  <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+    {% for item in history %}
+    <div class="glass-card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem;">
+          <span class="brand-badge" style="background: var(--primary); color: #0b1120;">{{ item.planner_type }}</span>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">📅 {{ item.created_at }}</span>
+        </div>
+        <h3 style="font-size: 1.3rem; font-weight: 800; color: #fff;">
+          Total Budget: <span style="color: var(--primary);">₹{{ "{:,.2f}".format(item.total_budget) }}</span>
+        </h3>
+        <p style="color: var(--text-sub); font-size: 0.95rem; margin-top: 0.25rem;">
+          {{ item.inputs_summary }}
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; align-items: center;">
+        <a href="/recommendations-details/{{ item.id }}" class="btn btn-primary btn-sm">
+          View Details &rarr;
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="glass-card" style="text-align: center; padding: 3rem 1.5rem;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">📂</div>
+    <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem;">No Saved History Yet</h3>
+    <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 1.5rem;">You haven't generated any budget plans yet.</p>
+    <div style="display: flex; gap: 1rem; justify-content: center;">
+      <a href="/home-planner" class="btn btn-primary btn-sm">🛋️ Home Planner</a>
+      <a href="/party-planner" class="btn btn-outline btn-sm">🎉 Party Planner</a>
+      <a href="/jewelry-planner" class="btn btn-outline btn-sm">💎 Jewelry Planner</a>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

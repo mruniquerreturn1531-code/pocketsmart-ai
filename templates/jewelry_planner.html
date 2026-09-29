@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+  <div style="text-align: center; margin-bottom: 2rem;">
+    <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--accent);">💎 Jewelry Budget & Styling Assistant</h1>
+    <p style="color: var(--text-muted);">Specify your budget and occasion. Optionally upload your outfit photo for Gemini multimodal color coordination and jewelry matching from Amazon & Flipkart.</p>
+  </div>
+
+  {% if error %}
+  <div style="background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.4); color: #fda4af; padding: 0.85rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; text-align: center;">
+    ⚠️ {{ error }}
+  </div>
+  {% endif %}
+
+  <form action="/generate-jewelry" method="POST" enctype="multipart/form-data" class="glass-card ai-planner-form">
+    <div class="form-group">
+      <label class="form-label" for="total_budget">Jewelry Budget (₹ INR) *</label>
+      <input type="number" id="total_budget" name="total_budget" class="form-control" placeholder="e.g. 25000" min="1000" step="500" value="20000" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="occasion">Occasion Type *</label>
+      <select id="occasion" name="occasion" class="form-control">
+        <option value="Wedding Reception">Wedding Reception</option>
+        <option value="Festival & Traditional Function">Festive / Traditional Function</option>
+        <option value="Cocktail Party & Gala">Cocktail Party & Gala</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="style_preference">Jewelry Style Preference</label>
+      <select id="style_preference" name="style_preference" class="form-control">
+        <option value="Traditional Kundan & Gold">Traditional Kundan & Gold Finish</option>
+        <option value="Modern Rose Gold & Diamond Accent">Modern Rose Gold & Diamond Accent</option>
+        <option value="Minimalist Sterling Silver">Minimalist Sterling Silver</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="outfit_image">Upload Outfit Photo (Optional - Multimodal AI Analysis)</label>
+      <input type="file" id="outfit_image" name="outfit_image" accept="image/jpeg,image/png,image/webp" class="form-control">
+      <div id="imagePreview" style="display: none; margin-top: 1rem; text-align: center;">
+        <img id="previewImg" src="" alt="Outfit Preview" style="max-height: 180px; border-radius: var(--radius-md); border: 1px solid var(--glass-border);">
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block" style="padding: 1rem; margin-top: 1rem; font-size: 1.05rem;">
+      ✨ Recommend Matching Jewelry Pieces
+    </button>
+  </form>
+</div>
+{% endblock %}

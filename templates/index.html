@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-section">
+  <div class="hero-pill">
+    <span>⚡ Powered by Gemini 1.5 & 2.5 Flash Multimodal GenAI</span>
+  </div>
+  <h1 class="hero-title">
+    Smart Budget Allocation & <br>
+    <span class="gradient-text">Cross-Platform Recommendations</span>
+  </h1>
+  <p class="hero-subtitle">
+    PocketSmart AI eliminates financial guesswork across your lifestyle needs. Plan home decor, organize party celebrations, and select matching jewelry—all tailored to your precise budget limits with instant platform links to IKEA, Amazon, Flipkart, Swiggy, Zomato & OYO.
+  </p>
+  <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+    <a href="/home-planner" class="btn btn-primary">🛋️ Explore Home Planner</a>
+    <a href="/party-planner" class="btn btn-outline">🎉 Plan a Party</a>
+    <a href="/jewelry-planner" class="btn btn-outline">💎 Jewelry Stylist</a>
+  </div>
+</section>
+
+<div class="card-grid">
+  <div class="glass-card">
+    <div class="card-icon">🛋️</div>
+    <h3 class="card-title">Home Interior Planner</h3>
+    <p class="card-desc">
+      Specify your total home budget and room types (Living Room, Kitchen, Bedroom). Get cost-effective furniture and lighting options across IKEA, Amazon, and Pepperfry.
+    </p>
+    <a href="/home-planner" class="btn btn-outline btn-block">Start Home Planning &rarr;</a>
+  </div>
+
+  <div class="glass-card">
+    <div class="card-icon">🎉</div>
+    <h3 class="card-title">AI Party Planner</h3>
+    <p class="card-desc">
+      Input total event budget, guest count, and venue style. Gemini AI allocates costs across catering (Swiggy/Zomato), venue (OYO), decoration, and entertainment.
+    </p>
+    <a href="/party-planner" class="btn btn-outline btn-block">Start Party Planning &rarr;</a>
+  </div>
+
+  <div class="glass-card">
+    <div class="card-icon">💎</div>
+    <h3 class="card-title">Jewelry Recommendation</h3>
+    <p class="card-desc">
+      Upload your outfit image or select an occasion style. PocketSmart AI performs multimodal color coordination and suggests elegant jewelry within budget from Amazon & Flipkart.
+    </p>
+    <a href="/jewelry-planner" class="btn btn-outline btn-block">Style My Jewelry &rarr;</a>
+  </div>
+</div>
+{% endblock %}

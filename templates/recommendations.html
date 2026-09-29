@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 1000px; margin: 0 auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+    <div>
+      <span class="hero-pill" style="margin-bottom: 0.5rem;">
+        ⚡ AI Recommendation Plan: {{ result.planner_type }}
+      </span>
+      <h1 style="font-size: 2.2rem; font-weight: 800;">Budget Recommendation Plan</h1>
+    </div>
+    <div style="display: flex; gap: 0.75rem;">
+      <button onclick="shareRecommendation()" class="btn btn-outline btn-sm">🔗 Share Link</button>
+      <a href="/home-planner" class="btn btn-primary btn-sm">✨ New Query</a>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    <div class="stat-box">
+      <div class="stat-label">Total Budget</div>
+      <div class="stat-val" style="color: var(--primary);">₹{{ "{:,.2f}".format(result.total_budget) }}</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Total Allocated</div>
+      <div class="stat-val" style="color: var(--secondary);">₹{{ "{:,.2f}".format(result.total_allocated) }}</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Estimated Savings</div>
+      <div class="stat-val" style="color: var(--accent);">₹{{ "{:,.2f}".format(result.savings_estimated if result.savings_estimated else 0.0) }}</div>
+    </div>
+    {% if result.guest_count %}
+    <div class="stat-box">
+      <div class="stat-label">Guest Count</div>
+      <div class="stat-val" style="color: #a855f7;">{{ result.guest_count }} pax</div>
+    </div>
+    {% endif %}
+  </div>
+
+  {% if result.summary %}
+  <div class="glass-card" style="margin-bottom: 2rem; border-left: 4px solid var(--primary);">
+    <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--primary);">💡 AI Strategy Summary</h3>
+    <p style="color: var(--text-sub);">{{ result.summary }}</p>
+    {% if result.outfit_analysis %}
+      <p style="color: var(--secondary); margin-top: 0.5rem; font-size: 0.95rem;"><strong>Outfit Analysis:</strong> {{ result.outfit_analysis }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if result.recommendations %}
+  <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1.25rem;">Curated Product Recommendations</h2>
+  <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+    {% for rec in result.recommendations %}
+    <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+          <span class="platform-badge badge-{{ rec.platform.lower() if rec.platform else 'amazon' }}">{{ rec.platform }}</span>
+          {% if rec.rating %}
+          <span style="font-size: 0.85rem; color: #facc15;">★ {{ rec.rating }}</span>
+          {% endif %}
+        </div>
+        <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.4rem;">{{ rec.item_name }}</h3>
+        {% if rec.category %}
+        <span style="display: inline-block; font-size: 0.8rem; background: rgba(16, 185, 129, 0.08); padding: 0.2rem 0.5rem; border-radius: 4px; margin-bottom: 0.75rem; color: var(--primary);">
+          📍 {{ rec.category }}
+        </span>
+        {% endif %}
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">{{ rec.description or rec.match_reason }}</p>
+      </div>
+
+      <div style="border-top: 1px solid var(--glass-border); padding-top: 1rem; margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">Est. Price</div>
+          <div style="font-size: 1.25rem; font-weight: 900; color: var(--primary);">₹{{ "{:,.2f}".format(rec.total_price if rec.total_price else rec.price) }}</div>
+        </div>
+        <a href="{{ rec.store_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
+          Buy on {{ rec.platform }} ↗
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if result.categories %}
+  <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1.25rem;">Party Budget Category Breakdown</h2>
+  <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+    {% for cat in result.categories %}
+    <div class="glass-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.75rem;">
+        <div>
+          <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--primary);">{{ cat.category_name }}</h3>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Allocated Share: {{ cat.percentage_share }}%</span>
+        </div>
+        <div style="font-size: 1.4rem; font-weight: 900; color: var(--secondary);">₹{{ "{:,.2f}".format(cat.allocated_amount) }}</div>
+      </div>
+
+      <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 1rem;">
+        {% for item in cat.items %}
+        <div style="background: rgba(16, 185, 129, 0.02); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <span class="platform-badge badge-{{ item.platform.lower() }}">{{ item.platform }}</span>
+            <span style="font-weight: 800; color: var(--primary);">₹{{ "{:,.2f}".format(item.estimated_cost) }}</span>
+          </div>
+          <h4 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem;">{{ item.item_name }}</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">{{ item.details }}</p>
+          <a href="{{ item.store_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm btn-block">
+            View on {{ item.platform }} ↗
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

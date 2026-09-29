@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+  <div style="text-align: center; margin-bottom: 2rem;">
+    <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--secondary);">🎉 AI Party Budget Planner</h1>
+    <p style="color: var(--text-muted);">Enter your event budget, guest count, and venue style. PocketSmart AI allocates your budget proportionally across Swiggy catering, OYO venues, decorations, and entertainment.</p>
+  </div>
+
+  <form action="/generate-party" method="POST" class="glass-card ai-planner-form">
+    <div class="form-group">
+      <label class="form-label" for="total_budget">Total Party Budget (₹ INR) *</label>
+      <input type="number" id="total_budget" name="total_budget" class="form-control" placeholder="e.g. 50000" min="2000" step="1000" value="40000" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="guest_count">Estimated Guest Count *</label>
+      <input type="number" id="guest_count" name="guest_count" class="form-control" placeholder="e.g. 35" min="2" max="500" value="30" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="event_type">Event Celebration Type *</label>
+      <select id="event_type" name="event_type" class="form-control">
+        <option value="Birthday Party">Birthday Party</option>
+        <option value="Wedding / Engagement Party">Wedding / Engagement Party</option>
+        <option value="Corporate Meetup & Dinner">Corporate Meetup & Dinner</option>
+        <option value="Anniversary Celebration">Anniversary Celebration</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="venue_type">Preferred Venue Style</label>
+      <select id="venue_type" name="venue_type" class="form-control">
+        <option value="AC Banquet Hall & Lawn">Banquet Hall & Party Lawn (OYO Partner)</option>
+        <option value="Rooftop Restaurant Space">Rooftop Restaurant Space</option>
+        <option value="Private Villa / Resort">Private Villa / Resort Stay</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block" style="padding: 1rem; margin-top: 1rem; font-size: 1.05rem;">
+      ✨ Generate Smart Party Plan & Budget Split
+    </button>
+  </form>
+</div>
+{% endblock %}
